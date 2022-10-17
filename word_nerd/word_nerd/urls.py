@@ -18,5 +18,5 @@ from django.urls import path
 from users import views as user_views
 
 urlpatterns = [
-    path('register/', user_views.RegisterUserApi.as_view(), name='register'),
+    path('register/', user_views.RegisterUserAPIView.as_view(), name='register'),
 ]
