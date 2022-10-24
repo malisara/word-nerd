@@ -21,5 +21,5 @@ from users import views as user_views
 urlpatterns = [
     path('register/', user_views.RegisterUserAPIView.as_view(), name='register'),
     path('login/', api_views.obtain_auth_token, name='login'),
-    path('logout/', user_views.LogoutAPIView().as_view(), name='logout'),
+    path('logout/', user_views.LogoutUserAPIView().as_view(), name='logout'),
 ]

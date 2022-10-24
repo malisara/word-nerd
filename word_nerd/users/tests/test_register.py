@@ -13,7 +13,7 @@ class RegisterTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(User.objects.count(), 1)
         self.assertEqual(User.objects.get().username, 'testuser1')
-        self.assertNotEqual(User.objects.get().password, 'coolpassyoww')
+        self.assertNotEqual(User.objects.get().password, 'coolpassyow1')
 
     def test_passwords_dont_match(self):
         response = register_user(
