@@ -13,5 +13,5 @@ class LogoutUserAPIView(CreateAPIView):
     def post(self, request):
         if request.user.is_authenticated:
             request.user.auth_token.delete()
-            return Response({'detail': "logout successful"})
-        return Response({'detail': "you weren't logged in"}, status=status.HTTP_409_CONFLICT)
+            return Response({'detail': "Logout successful."})
+        return Response({'detail': "You weren't logged in."}, status=status.HTTP_409_CONFLICT)
