@@ -10,6 +10,6 @@ class AllLanguagesAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        languages = Language.objects.all().order_by('language')
+        languages = Language.objects.all().order_by('name')
         serializer = LanguageSerializer(languages, many=True)
         return Response(serializer.data)

@@ -4,12 +4,10 @@ import csv
 
 
 class Command(BaseCommand):
-    # Call command:  python3 manage.py <file_name>
+    # Call command:  python3 manage.py fill_database_with_languages
     def handle(self, *args, **options):
+        Language.objects.all().delete()
         with open('flashcards/languages.csv') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             for row in csv_reader:
-                try:
-                    Language.objects.get(code=row[0])
-                except Language.DoesNotExist:
-                    Language.objects.create(code=row[0], language=row[1])
+                Language.objects.create(code=row[0], name=row[1])
