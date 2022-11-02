@@ -1,4 +1,4 @@
-from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
 
@@ -10,8 +10,8 @@ class RegisterUserAPIView(CreateAPIView):
 
 
 class LogoutUserAPIView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        if request.user.is_authenticated:
-            request.user.auth_token.delete()
-            return Response({'detail': "Logout successful."})
-        return Response({'detail': "You weren't logged in."}, status=status.HTTP_409_CONFLICT)
+        request.user.auth_token.delete()
+        return Response({'detail': "Logout successful."})
