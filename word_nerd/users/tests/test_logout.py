@@ -16,10 +16,3 @@ class LogoutTest(APITestCase):
         self.assertEqual(Token.objects.count(), 0)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['detail'], "Logout successful.")
-
-    def test_logout_user_not_logged_in(self):
-        self.assertEqual(Token.objects.count(), 0)
-        response = self.client.post(self.url, format='json')
-        self.assertEqual(Token.objects.count(), 0)
-        self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
-        self.assertEqual(response.data['detail'], "You weren't logged in.")

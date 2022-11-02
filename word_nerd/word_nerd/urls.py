@@ -16,10 +16,14 @@ Including another URLconf
 from django.urls import path
 from rest_framework.authtoken import views as api_views
 
+from flashcards import views as flashcards_views
 from users import views as user_views
 
 urlpatterns = [
     path('register/', user_views.RegisterUserAPIView.as_view(), name='register'),
     path('login/', api_views.obtain_auth_token, name='login'),
     path('logout/', user_views.LogoutUserAPIView().as_view(), name='logout'),
+
+    path('all-languages/',
+         flashcards_views.AllLanguagesAPIView().as_view(), name='all_languages'),
 ]
