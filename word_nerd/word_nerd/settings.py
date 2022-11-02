@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'users.apps.UsersConfig',
-    'flashcards.apps.FlashcardsConfig'
+    'flashcards.apps.FlashcardsConfig',
+    'decks.apps.DecksConfig'
 ]
 
 MIDDLEWARE = [

@@ -1,8 +1,9 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from users.tests.utils_test import register_and_login_user
+
 from flashcards.models import Language
+from users.tests.utils_test import register_and_login_user
 
 
 class GetAllLanguages(APITestCase):
