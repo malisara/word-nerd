@@ -1,11 +1,10 @@
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Language
-from .serializers import LanguageSerializer, MyLanguageSerializer
+from .serializers import LanguageIdSerializer, LanguageSerializer
 from decks.models import Deck
 
 
@@ -22,22 +21,21 @@ class AddLanguageAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = MyLanguageSerializer(data=request.data)
+        serializer = LanguageIdSerializer(data=request.data)
 
         if not serializer.is_valid():
             return Response(
                 {'detail': 'Invalid data.', 'errors': serializer.errors},
-                status=status.HTTP_400_BAD_REQUEST)
+                status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         chosen_language = Language.objects.get(
-            id=serializer.data['language_id'])
+            id=serializer.validated_data['id'])
 
-        if request.user.languages.filter(
-                id=serializer.data['language_id']).count() == 0:
+        if request.user.languages.filter(id=chosen_language.id).count() == 0:
             chosen_language.users.add(request.user)
             Deck.objects.create(owner=request.user, language=chosen_language)
             return Response({'detail': 'New language added.'},
                             status=status.HTTP_201_CREATED)
 
-        return Response({'detail': 'Language is already chosen.'},
+        return Response({'detail': 'Language is already selected.'},
                         status=status.HTTP_409_CONFLICT)
