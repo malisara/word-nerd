@@ -8,27 +8,23 @@ from users.tests.utils_test import register_and_login_user
 
 
 class AddNewLanguage(APITestCase):
-    url = reverse('add_language')
-    data = {"id": 1}
+    url = reverse('add_language', kwargs={'pk': 1})
 
     def test_wrong_language_pk(self):
         register_and_login_user(self.client)
-        response = self.client.post(
-            self.url, self.data, format='json')
-        self.assertEqual(response.status_code,
-                         status.HTTP_422_UNPROCESSABLE_ENTITY)
+        response = self.client.post(self.url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Deck.objects.count(), 0)
-        self.assertEqual(response.data['detail'], 'Invalid data.')
-        self.assertEqual(response.data['errors']['id'][0],
+        self.assertEqual(response.data['detail'],
                          'Language instance does not exist.')
 
     def test_user_already_has_language(self):
         Language.objects.create(code='eng', name='english')
         register_and_login_user(self.client)
         self.assertEqual(Deck.objects.count(), 0)
-        self.client.post(self.url, self.data, format='json')
+        self.client.post(self.url, format='json')
         self.assertEqual(Deck.objects.count(), 1)
-        response = self.client.post(self.url, self.data, format='json')
+        response = self.client.post(self.url, format='json')
         self.assertEqual(response.status_code, status.HTTP_409_CONFLICT)
         self.assertEqual(response.data['detail'],
                          'Language is already selected.')
@@ -37,8 +33,7 @@ class AddNewLanguage(APITestCase):
     def test_succesfully_add_new_language(self):
         Language.objects.create(code='eng', name='english')
         register_and_login_user(self.client)
-        response = self.client.post(
-            self.url, self.data, format='json')
+        response = self.client.post(self.url, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['detail'], 'New language added.')
         deck = Deck.objects.get(id=1)
