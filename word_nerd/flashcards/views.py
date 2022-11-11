@@ -35,3 +35,12 @@ class AddLanguageAPIView(APIView):
 
         return Response({'detail': 'Language is already selected.'},
                         status=status.HTTP_409_CONFLICT)
+
+
+class GetUsersLanguagesAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        languages = request.user.languages.all()
+        serializer = LanguageSerializer(languages, many=True)
+        return Response({'languages': serializer.data})

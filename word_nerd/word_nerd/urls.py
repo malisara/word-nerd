@@ -28,4 +28,6 @@ urlpatterns = [
          flashcards_views.AllLanguagesAPIView().as_view(), name='all_languages'),
     path('my-languages/add/<int:pk>/', flashcards_views.AddLanguageAPIView.as_view(),
          name='add_language'),
+    path('my-languages/', flashcards_views.GetUsersLanguagesAPIView.as_view(),
+         name='my_languages'),
 ]
