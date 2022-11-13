@@ -38,7 +38,7 @@ class AddNewLanguage(APITestCase):
         self.assertEqual(response.data['detail'], 'New language added.')
         deck = Deck.objects.get(id=1)
         self.assertEqual(Deck.objects.count(), 1)
-        self.assertEqual(deck.name, 'other cards')
+        self.assertEqual(deck.name, 'Other cards')
         self.assertEqual(deck.owner.id, 1)
         self.assertEqual(deck.public, False)
         self.assertEqual(deck.language.id, 1)
