@@ -5,4 +5,4 @@ from django.db import models
 class Language(models.Model):
     name = models.CharField(max_length=40)
     code = models.CharField(max_length=2)
-    user = models.ManyToManyField(User, related_name='languages')
+    users = models.ManyToManyField(User, related_name='languages')
