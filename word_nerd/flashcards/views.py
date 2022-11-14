@@ -37,7 +37,7 @@ class AddLanguageAPIView(APIView):
                         status=status.HTTP_409_CONFLICT)
 
 
-class GetUsersLanguagesAPIView(APIView):
+class GetUserLanguagesAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

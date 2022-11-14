@@ -24,10 +24,10 @@ urlpatterns = [
     path('login/', api_views.obtain_auth_token, name='login'),
     path('logout/', user_views.LogoutUserAPIView().as_view(), name='logout'),
 
-    path('all-languages/',
-         flashcards_views.AllLanguagesAPIView().as_view(), name='all_languages'),
+    path('all-languages/', flashcards_views.AllLanguagesAPIView().as_view(),
+         name='all_languages'),
     path('my-languages/add/<int:pk>/', flashcards_views.AddLanguageAPIView.as_view(),
          name='add_language'),
-    path('my-languages/', flashcards_views.GetUsersLanguagesAPIView.as_view(),
+    path('my-languages/', flashcards_views.GetUserLanguagesAPIView.as_view(),
          name='my_languages'),
 ]
