@@ -14,9 +14,9 @@ class GetAllLanguages(APITestCase):
         response = self.client.get(reverse('all_languages'), format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['id'], 1)
-        self.assertEqual(response.data[0]['name'], 'english')
+        self.assertEqual(len(response.data['languages']), 1)
+        self.assertEqual(response.data['languages'][0]['id'], 1)
+        self.assertEqual(response.data['languages'][0]['name'], 'english')
         Language.objects.create(code='nor', name='norwegian')
         response = self.client.get(reverse('all_languages'), format='json')
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(len(response.data['languages']), 2)

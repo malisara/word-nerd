@@ -15,7 +15,7 @@ class AllLanguagesAPIView(APIView):
     def get(self, request):
         languages = Language.objects.all().order_by('name')
         serializer = LanguageSerializer(languages, many=True)
-        return Response(serializer.data)
+        return Response({'languages': serializer.data})
 
 
 class AddLanguageAPIView(APIView):
@@ -35,3 +35,12 @@ class AddLanguageAPIView(APIView):
 
         return Response({'detail': 'Language is already selected.'},
                         status=status.HTTP_409_CONFLICT)
+
+
+class GetUserLanguagesAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        languages = request.user.languages.all().order_by('name')
+        serializer = LanguageSerializer(languages, many=True)
+        return Response({'languages': serializer.data})
