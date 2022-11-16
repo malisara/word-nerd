@@ -18,6 +18,7 @@ from rest_framework.authtoken import views as api_views
 
 from flashcards import views as flashcards_views
 from users import views as user_views
+from decks import views as deck_views
 
 urlpatterns = [
     path('register/', user_views.RegisterUserAPIView.as_view(), name='register'),
@@ -30,4 +31,6 @@ urlpatterns = [
          name='add_language'),
     path('my-languages/', flashcards_views.GetUserLanguagesAPIView.as_view(),
          name='my_languages'),
+
+    path('new-deck/', deck_views.NewDeckAPIView.as_view(), name='new_deck'),
 ]

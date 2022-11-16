@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from django.urls import reverse
 
-from flashcards.models import Language
 from users.tests.utils_test import register_and_login_user
+from .utils_test import create_language_and_add_for_user
 
 
 class AddNewLanguage(APITestCase):
@@ -17,7 +17,7 @@ class AddNewLanguage(APITestCase):
 
     def test_user_has_one_language(self):
         register_and_login_user(self.client)
-        _create_language_and_add_for_user('eng', 'english', 1, self.client)
+        create_language_and_add_for_user('eng', 'english', 1, self.client)
         response = self.client.get(self.url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['languages'][0]['name'], 'english')
@@ -26,8 +26,8 @@ class AddNewLanguage(APITestCase):
 
     def test_user_has_two_languages(self):
         register_and_login_user(self.client)
-        _create_language_and_add_for_user('eng', 'english', 1, self.client)
-        _create_language_and_add_for_user('fin', 'finnish', 2, self.client)
+        create_language_and_add_for_user('eng', 'english', 1, self.client)
+        create_language_and_add_for_user('fin', 'finnish', 2, self.client)
         response = self.client.get(self.url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['languages'][0]['name'], 'english')
@@ -35,10 +35,3 @@ class AddNewLanguage(APITestCase):
         self.assertEqual(response.data['languages'][1]['name'], 'finnish')
         self.assertEqual(response.data['languages'][1]['id'], 2)
         self.assertEqual(len(response.data['languages']), 2)
-
-
-def _create_language_and_add_for_user(language_code,
-                                      language_name, language_pk, client):
-    Language.objects.create(code=language_code, name=language_name)
-    client.post(reverse('add_language', kwargs={'pk': language_pk}),
-                format='json')
