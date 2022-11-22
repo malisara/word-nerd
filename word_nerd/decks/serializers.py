@@ -14,3 +14,9 @@ class NewDeckSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deck
         fields = ['language', 'name', 'public']
+
+
+class DeckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Deck
+        fields = ['name', 'public']
