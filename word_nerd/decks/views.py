@@ -26,9 +26,9 @@ class NewDeckAPIView(APIView):
 class GetUserDecksAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, pk):
+    def get(self, request, language_pk):
         try:
-            language = request.user.languages.get(id=pk)
+            language = request.user.languages.get(id=language_pk)
         except ObjectDoesNotExist:
             return Response({'detail': 'Language is not selected.'},
                             status=status.HTTP_400_BAD_REQUEST)
