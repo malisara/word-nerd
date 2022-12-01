@@ -3,7 +3,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import NewDeckSerializer
+from .models import Deck
+from .serializers import DeckSerializer, NewDeckSerializer
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class NewDeckAPIView(APIView):
@@ -19,3 +21,18 @@ class NewDeckAPIView(APIView):
         return Response({'detail': 'Invalid data.',
                         'errors': serializer.errors},
                         status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetUserDecksAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, language_pk):
+        try:
+            language = request.user.languages.get(id=language_pk)
+        except ObjectDoesNotExist:
+            return Response({'detail': 'Language is not selected.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        decks = Deck.objects.filter(language=language, owner=request.user)
+        serializer = DeckSerializer(decks, many=True)
+        return Response({'decks': serializer.data}, status=status.HTTP_200_OK)

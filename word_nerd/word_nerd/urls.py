@@ -33,4 +33,6 @@ urlpatterns = [
          name='my_languages'),
 
     path('new-deck/', deck_views.NewDeckAPIView.as_view(), name='new_deck'),
+    path('my-languages/<int:language_pk>/decks',
+         deck_views.GetUserDecksAPIView.as_view(), name='my_decks'),
 ]
