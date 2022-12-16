@@ -31,7 +31,7 @@ class GetUserDecksAPIView(APIView):
             language = request.user.languages.get(id=language_pk)
         except ObjectDoesNotExist:
             return Response({'detail': 'Language is not selected.'},
-                            status=status.HTTP_400_BAD_REQUEST)
+                            status=status.HTTP_404_NOT_FOUND)
 
         decks = Deck.objects.filter(language=language, owner=request.user)
         serializer = DeckSerializer(decks, many=True)
@@ -50,8 +50,7 @@ class EditDeckAPIView(APIView):
         serializer = DeckSerializer(deck, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'detail': 'Deck is updated.',
-                             'data': serializer.data})
+            return Response({'detail': 'Deck is updated.'})
         return Response(
             {'detail': 'Invalid data', 'errors': serializer.errors},
             status=status.HTTP_400_BAD_REQUEST)
