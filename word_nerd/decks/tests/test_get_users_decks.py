@@ -13,14 +13,14 @@ class AddNewLanguage(APITestCase):
     def test_wrong_pk_language_doesnt_exist(self):
         register_and_login_user(self.client)
         response = self.client.get(self.url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data["detail"], "Language is not selected.")
 
     def test_wrong_pk_language_exists_but_not_selected(self):
         register_and_login_user(self.client)
         Language.objects.create(code='eng', name='english')
         response = self.client.get(self.url, format='json')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(response.data["detail"], "Language is not selected.")
 
     def test_return_users_decks(self):

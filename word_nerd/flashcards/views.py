@@ -25,7 +25,8 @@ class AddLanguageAPIView(APIView):
         try:
             chosen_language = Language.objects.get(id=pk)
         except ObjectDoesNotExist:
-            return Response({'detail': 'Language instance does not exist.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'Language instance does not exist.'},
+                            status=status.HTTP_404_NOT_FOUND)
 
         if request.user.languages.filter(id=pk).count() == 0:
             chosen_language.users.add(request.user)
