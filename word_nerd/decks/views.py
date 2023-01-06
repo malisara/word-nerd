@@ -54,3 +54,16 @@ class EditDeckAPIView(APIView):
         return Response(
             {'detail': 'Invalid data', 'errors': serializer.errors},
             status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteDeckAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            deck = Deck.objects.get(id=pk, owner=request.user)
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        message = f"Deck '{deck.name}' is deleted."
+        deck.delete()
+        return Response({'detail': message})
