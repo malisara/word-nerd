@@ -37,4 +37,6 @@ urlpatterns = [
          deck_views.GetUserDecksAPIView.as_view(), name='my_decks'),
     path('decks/<int:pk>/edit', deck_views.EditDeckAPIView.as_view(),
          name='edit_deck'),
+    path('decks/<int:pk>/delete', deck_views.DeleteDeckAPIView.as_view(),
+         name='delete_deck'),
 ]
